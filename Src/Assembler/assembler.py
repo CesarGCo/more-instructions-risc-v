@@ -29,18 +29,18 @@ def ConvertToMachineCode(opr, file, writeToFile, assembly, index):
         rd = ConvertBin(int(assembly[index][1][1:]), 5)
         machine_code = f"{funct7}{rs2}{rs1}{funct3}{rd}{opcode}"
     elif opr in {"addi", "lw"}:
-        imm = ConvertBin(int(assembly[index][3]), 12)
-        rs1 = ConvertBin(int(assembly[index][2][1:]), 5)
-        rd = ConvertBin(int(assembly[index][1][1:]), 5)
+        imm = ConvertBin(int(assembly[index][3][0:].lstrip("x")), 12)
+        rs1 = ConvertBin(int(assembly[index][2][0:].lstrip("x")), 5)
+        rd = ConvertBin(int(assembly[index][1][0:].lstrip("x")), 5)
         machine_code = f"{imm}{rs1}{funct3}{rd}{opcode}"
     elif opr == "sw":
-        imm_bin = ConvertBin(int(assembly[index][2]), 12)
+        imm_bin = ConvertBin(int(assembly[index][2][0:]), 12)
         imm1, imm2 = imm_bin[:7], imm_bin[7:]
         rs2 = ConvertBin(int(assembly[index][3][1:]), 5)
         rs1 = ConvertBin(int(assembly[index][1][1:]), 5)
         machine_code = f"{imm1}{rs1}{rs2}{funct3}{imm2}{opcode}"
     elif opr == "bne":
-        imm_bin = ConvertBin(int(assembly[index][3]), 12)
+        imm_bin = ConvertBin(int(assembly[index][3][0:]), 12)
         imm1, imm2, imm3, imm4 = imm_bin[0], imm_bin[2:8], imm_bin[8:12], imm_bin[1]
         rs1 = ConvertBin(int(assembly[index][1][1:]), 5)
         rs2 = ConvertBin(int(assembly[index][2][1:]), 5)
